@@ -16,17 +16,27 @@ handler.post(async (req, res) => {
     password: bcrypt.hashSync(req.body.password),
     isAdmin: false,
   });
-  const user = await newUser.save();
-  await dbConnect.disconnect();
+  try {
+    const user = await newUser.save();
+    await dbConnect.disconnect();
 
-  const token = signToken(user);
-  res.send({
-    token,
-    _id: user._id,
-    firstName: user.firstName,
-    email: user.email,
-    isAdmin: user.isAdmin,
-  });
+    const token = signToken(user);
+    res.status(201).json({
+      message: 'Successfully registed a user',
+      registeredUser: {
+        token,
+        _id: user._id,
+        firstName: user.firstName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Error registering the user',
+    });
+  }
 });
 
 export default handler;

@@ -7,7 +7,7 @@ export default function Products({ products }) {
       <h2>Products</h2>
       <div>
         {products.map((product) => (
-          <div key={product.name}>{product.name}</div>
+          <div key={product._id}>{product.name}</div>
         ))}
       </div>
     </>
