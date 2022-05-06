@@ -5,33 +5,16 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "node": true
+    "es2021": true
   },
-  "parser": "@typescript-eslint/parser",
+  "extends": ["plugin:react/recommended", "airbnb", "prettier"],
   "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
   },
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ], // make sure prettier is last
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "parserOptions": {
-        "project": ["./tsconfig.json"]
-      }
-    }
-  ]
+  "plugins": ["react"],
+  "rules": {}
 }
