@@ -28,6 +28,7 @@ export default function ButtonAppBar() {
 
             <Typography
               to="/"
+              color="white"
               variant="h6"
               component="div"
               sx={{ flexGrow: 1, cursor: 'pointer' }}
