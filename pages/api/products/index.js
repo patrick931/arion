@@ -1,5 +1,5 @@
 import nc from 'next-connect';
-import Product from '../../../models/Product';
+import Product from '../../../src/models/Product';
 import dbConnect from '../../../utils/dbConnect';
 
 const handler = nc();

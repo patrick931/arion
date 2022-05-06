@@ -1,5 +1,5 @@
 import nc from 'next-connect';
-import Category from '../../../models/Category';
+import Category from '../../../src/models/Category';
 import dbConnect from '../../../utils/dbConnect';
 
 const handler = nc();
