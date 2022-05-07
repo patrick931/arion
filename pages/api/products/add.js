@@ -13,15 +13,15 @@ handler.post(async (req, res) => {
     name: req.body.name,
     slug: req.body.slug,
     description: req.body.description,
-    category: req.body.category,
+    productCategory: req.body.productCategory,
     productType: req.body.productType,
     brand: req.body.brand,
     buyingPrice: req.body.buyingPrice,
     sellingPrice: req.body.sellingPrice,
     countInStock: req.body.countInStock,
     taxRate: req.body.taxRate,
-    // imageUrl: req.body.imageUrl,
-    // rating: req.body.rating,
+    imageUrl: req.body.imageUrl,
+    rating: req.body.rating,
     // numReviews: req.body.numReviews,
   });
   try {

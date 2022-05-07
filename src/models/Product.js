@@ -19,15 +19,15 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
     },
     description: {
       type: String,
       required: [true, 'Please enter product description'],
       maxlength: [200, 'Max product description length is 200 characters'],
     },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+    productCategory: {
+      type: String,
       required: true,
     },
     productType: {
@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema(
     },
     countInStock: {
       type: Number,
-      required: true,
+      required: [true, 'Please enter a count in stock'],
       default: 0,
     },
     taxRate: {
@@ -59,34 +59,12 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    images: {
-      thumbnail_url: {
-        type: String,
-      },
-      picture_url: {
-        type: String,
-      },
-      medium_url: {
-        type: String,
-      },
-      xl_picture_url: {
-        type: String,
-      },
+    imageUrl: {
+      type: String,
     },
-
-    reviews: [
-      {
-        name: {
-          type: String,
-        },
-        rating: {
-          type: Number,
-        },
-        comment: {
-          type: String,
-        },
-      },
-    ],
+    rating: {
+      type: Number,
+    },
     isActive: {
       type: Boolean,
       required: true,

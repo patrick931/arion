@@ -1,3 +1,5 @@
+import { Container, Grid } from '@mui/material';
+import axios from 'axios';
 import Head from 'next/head';
 import Layout from '../../src/components/Layout';
 import Product from '../../src/models/Product';
@@ -12,17 +14,19 @@ export default function Products({ products }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2>Products</h2>
-      <div>
+      <Container>
         {products.map((product) => (
           <div key={product._id}>{product.name}</div>
         ))}
-      </div>
+      </Container>
     </Layout>
   );
 }
 export async function getServerSideProps() {
   await dbConnect.connect();
   const products = await Product.find({}).lean();
+  // const products = await axios.get('http://localhost:3000/api/products/');
+
   await dbConnect.disconnect();
 
   return {
