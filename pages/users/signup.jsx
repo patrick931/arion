@@ -131,6 +131,15 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+            <Button
+              fullWidth
+              href="/products"
+              // variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Go to Products
+            </Button>
+
             <Grid container justifyContent="center">
               <Grid item>
                 <Link href="/users/signin" variant="body2">

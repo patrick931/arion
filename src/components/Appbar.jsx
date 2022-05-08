@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import { Grid } from '@mui/material';
 import Link from '@mui/material/Link';
+import { color } from '@mui/system';
 
 export default function ButtonAppBar() {
   return (
@@ -31,22 +32,22 @@ export default function ButtonAppBar() {
               color="white"
               variant="h6"
               component="div"
-              sx={{ flexGrow: 1, cursor: 'pointer' }}
+              sx={{ flexGrow: 1, cursor: 'pointer', color: 'white' }}
             >
               <a href="/" underline="none">
                 Arion
               </a>
             </Typography>
 
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box sx={{ cursor: 'pointer', color: 'inherit' }}>
               <ShoppingCartCheckoutOutlinedIcon />
             </Box>
 
             <Button href="users/signin" color="inherit">
-              Login
+              Sign in
             </Button>
             <Button href="users/signup" color="inherit">
-              Register
+              Sign up
             </Button>
           </Toolbar>
         </AppBar>
