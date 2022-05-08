@@ -22,7 +22,7 @@ function Copyright(props) {
     >
       {'Copyright © '}
       <Link color="inherit" href="/">
-        Your Website
+        pnkamau.com
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
