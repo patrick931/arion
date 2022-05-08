@@ -13,7 +13,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Wecome to Arion <a href="/products">Products</a>
+          Welcome to Arion <a href="/products">Products</a>
         </h1>
       </main>
     </div>
