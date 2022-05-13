@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Head from 'next/head';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -12,7 +13,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import axios from 'axios';
 
 function Copyright(props) {
@@ -24,7 +25,7 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link color="inherit" href="/products">
+      <Link color="inherit" href="/">
         pnkamau.com
       </Link>{' '}
       {new Date().getFullYear()}
@@ -49,12 +50,6 @@ export default function SignIn() {
     } catch (err) {
       alert(err.response.data ? err.response.data.message : err.message);
     }
-
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
   };
 
   return (
@@ -93,7 +88,7 @@ export default function SignIn() {
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
+              autoComplete="off"
               autoFocus
               inputProps={{ type: 'email' }}
               onChange={(e) => setEmail(e.target.value)}
@@ -118,27 +113,27 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#0362fc' }}
             >
               Sign In
             </Button>
             <Button
               fullWidth
               // variant="contained"
-              href="/products"
+              href="/"
               sx={{ mt: 3, mb: 2 }}
             >
               Go to Products
             </Button>
 
-            <Grid container>
+            <Grid container sx={{ color: '#0362fc' }}>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/resetPassword" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/users/signup" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

@@ -63,6 +63,11 @@ const productSchema = new mongoose.Schema(
       type: String,
     },
     rating: {
+      required: true,
+      type: Number,
+    },
+    numReviews: {
+      required: true,
       type: Number,
     },
     isActive: {

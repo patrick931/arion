@@ -21,7 +21,7 @@ function Copyright(props) {
       {...props}
     >
       {'Copyright © '}
-      <Link color="inherit" href="/products">
+      <Link color="inherit" href="/">
         pnkamau.com
       </Link>{' '}
       {new Date().getFullYear()}
@@ -127,22 +127,22 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#0362fc' }}
             >
               Sign Up
             </Button>
             <Button
               fullWidth
-              href="/products"
+              href="/"
               // variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Go to Products
             </Button>
 
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center" sx={{ color: '#0362fc' }}>
               <Grid item>
-                <Link href="/users/signin" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
