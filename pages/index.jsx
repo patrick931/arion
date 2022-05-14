@@ -11,20 +11,43 @@ import {
   Rating,
   Link,
 } from '@mui/material';
+import axios from 'axios';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import Layout from '../src/components/Layout';
-
+import { useSnackbar } from 'notistack';
 import Product from '../src/models/Product';
 import dbConnect from '../utils/dbConnect';
+import { Store } from '../utils/Store';
 
 export default function Products({ products }) {
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const addToCartHandler = async (product) => {
+    const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock < quantity) {
+      enqueueSnackbar('Sorry, Product is Out of Stock', { variant: 'error' });
+      return;
+    }
+    dispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity },
+    });
+    router.push('/cart');
+    enqueueSnackbar(`${product.name} added to cart`, { variant: 'success' });
+  };
   return (
     <Layout>
       <Box
+        textAlign="center"
         sx={{
           p: 1,
           mt: 9,
-          // height: 10,
           background: 'silver',
         }}
       >
@@ -36,7 +59,6 @@ export default function Products({ products }) {
         spacing={2}
         sx={{
           p: 3,
-          // mt: 1,
           minHeight: '80vh',
         }}
       >
@@ -68,7 +90,11 @@ export default function Products({ products }) {
               </NextLink>
               <CardActions>
                 <Typography>${product.sellingPrice}</Typography>
-                <Button size="small" color="primary">
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() => addToCartHandler(product)}
+                >
                   Add to Cart
                 </Button>
               </CardActions>

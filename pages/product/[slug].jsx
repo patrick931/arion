@@ -1,31 +1,39 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import Layout from '../../src/components/Layout';
+import NextLink from 'next/link';
 import {
   Box,
   Button,
   Card,
   Grid,
+  Link,
   List,
   ListItem,
   Rating,
   Typography,
 } from '@mui/material';
+
 // import data from '../../utils/data';
 import Product from '../../src/models/Product';
 import dbConnect from '../../utils/dbConnect';
 import classes from '../../utils/classes';
+import axios from 'axios';
+import { Store } from '../../utils/Store';
+import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 export default function ProductScreen(props) {
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
+  const { enqueueSnackbar } = useSnackbar();
   const { product } = props;
 
   if (!product) {
-    // return <div>Product Not Found</div>;
     return (
       <Grid item>
         <Button
           fullWidth
-          // variant="contained"
           component={Link}
           noLinkStyle
           href="/"
@@ -40,17 +48,33 @@ export default function ProductScreen(props) {
       </Grid>
     );
   }
+
+  const addToCartHandler = async () => {
+    const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock < quantity) {
+      enqueueSnackbar('Sorry, Product is Out of Stock', { variant: 'error' });
+
+      return;
+    }
+    dispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity },
+    });
+    router.push('/cart');
+    enqueueSnackbar(`${product.name} added to cart`, { variant: 'success' });
+  };
   return (
     <Layout title={product.name} description={product.description}>
       <Box sx={{ mt: 5 }}>
-        <Button
-          fullWidth
-          // variant="contained"
-          href="/"
-          sx={{ mt: 3, mb: 2, p: 3 }}
-        >
-          Go Back to Products
-        </Button>
+        <NextLink href="/" passHref>
+          <Link>
+            <Button fullWidth sx={{ mt: 3, mb: 2, p: 3 }}>
+              Go Back to Products
+            </Button>
+          </Link>
+        </NextLink>
       </Box>
       <Grid container spacing={3} sx={{ p: 3 }}>
         <Grid item md={6} xs={12}>
@@ -72,7 +96,6 @@ export default function ProductScreen(props) {
                 sx={{
                   fontSize: '1.6rem',
                   fontWeight: '400',
-                  // margin: '1rem 0',
                 }}
               >
                 {product.name}
@@ -128,6 +151,7 @@ export default function ProductScreen(props) {
                   fullWidth
                   variant="contained"
                   sx={{ backgroundColor: '#0362fc' }}
+                  onClick={addToCartHandler}
                 >
                   Add to Cart
                 </Button>

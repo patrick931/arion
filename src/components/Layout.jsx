@@ -1,19 +1,16 @@
-// import Appbar from './Appbar';
 import React, { useContext } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import Footer from './Footer';
-import { Container, Grid, Link } from '@mui/material';
+import { Container, Grid, Link, Badge, Switch, Box } from '@mui/material';
 import { Store } from '../../utils/Store';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { Switch } from '@mui/material';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
@@ -22,7 +19,7 @@ import classes from '../../utils/classes';
 // eslint-disable-next-line react/prop-types
 export default function Layout({ title, description, children }) {
   const { state, dispatch } = useContext(Store);
-  const { darkMode } = state;
+  const { darkMode, cart } = state;
 
   const theme = createTheme({
     components: {
@@ -52,14 +49,17 @@ export default function Layout({ title, description, children }) {
       secondary: {
         main: '#5a03fc',
       },
+      tertiary: {
+        main: 'yellow',
+      },
     },
   });
-  const darkModeChangeHandler = () => {
-    dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
-    const newDarkMode = !darkMode;
-    // Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
-    Cookies.set('darkMode', JSON.stringify(newDarkMode ? 'ON' : 'OFF'));
-  };
+  // const darkModeChangeHandler = () => {
+  //   dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
+  //   const newDarkMode = !darkMode;
+  //   Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
+  //   // Cookies.set('darkMode', JSON.stringify(newDarkMode ? 'ON' : 'OFF'));
+  // };
 
   return (
     <>
@@ -83,22 +83,20 @@ export default function Layout({ title, description, children }) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              fontWeight="bold"
-              color="white"
-              variant="h6"
-              component="div"
-              sx={{
-                flexGrow: 1,
-                cursor: 'pointer',
-                '& a': {
-                  color: 'white',
-                  textDecoration: 'none',
-                },
-              }}
-            >
-              <a href="/">Arion</a>
-            </Typography>
+            <NextLink href="/" passHref>
+              <Link
+                sx={{
+                  flexGrow: 1,
+                  cursor: 'pointer',
+                  '& a': {
+                    color: 'white',
+                    textDecoration: 'none',
+                  },
+                }}
+              >
+                <Typography sx={classes.brand}>Arion</Typography>
+              </Link>
+            </NextLink>
             {/* <Box display="flex" alignItems="center">
               <NextLink href="/" passHref>
                 <Link>
@@ -112,26 +110,44 @@ export default function Layout({ title, description, children }) {
                 onChange={darkModeChangeHandler}
               ></Switch>
             </Box> */}
-            <Box
-              sx={{
-                cursor: 'pointer',
-                color: 'inherit',
-              }}
-            >
-              <ShoppingCartCheckoutOutlinedIcon
-                onClick={(event) => (window.location.href = '/cart')}
-                sx={{
-                  mr: 3,
-                  color: 'white',
-                  '&:hover': {
-                    color: 'red',
-                  },
-                }}
-              />
-            </Box>
-            <Button href="/signin" color="inherit">
-              Sign in{' '}
-            </Button>{' '}
+            <NextLink href="/cart" passHref>
+              <Link>
+                {cart.cartItems.length > 0 ? (
+                  <Badge
+                    color="tertiary"
+                    badgeContent={cart.cartItems.length}
+                    sx={{ color: 'black' }}
+                  >
+                    <ShoppingCartCheckoutOutlinedIcon
+                      sx={{
+                        cursor: 'pointer',
+                        justifyContent: 'center',
+                        color: 'white',
+                        '&:hover': {
+                          color: 'red',
+                        },
+                      }}
+                    />
+                  </Badge>
+                ) : (
+                  <ShoppingCartCheckoutOutlinedIcon
+                    sx={{
+                      cursor: 'pointer',
+                      justifyContent: 'center',
+                      color: 'white',
+                      '&:hover': {
+                        color: 'red',
+                      },
+                    }}
+                  />
+                )}
+              </Link>
+            </NextLink>
+            <NextLink href="/signin" passHref>
+              <Link>
+                <Button color="inherit">Sign in</Button>
+              </Link>
+            </NextLink>
           </Toolbar>
         </AppBar>
         <Container component="main" sx={classes.main}>
