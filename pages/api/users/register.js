@@ -14,7 +14,10 @@ handler.post(async (req, res) => {
     email: req.body.email,
     mobile: req.body.mobile,
     password: bcrypt.hashSync(req.body.password),
+    avatar: req.body.avatar,
     isAdmin: false,
+    isActive: false,
+    email_confirmed: false,
   });
   try {
     const user = await newUser.save();
@@ -34,7 +37,7 @@ handler.post(async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Error registering the user',
+      message: 'Error Registering the User',
     });
   }
 });

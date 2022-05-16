@@ -24,8 +24,10 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 function CartScreen() {
+  const router = useRouter();
   const {
     state: {
       cart: { cartItems },
@@ -51,7 +53,9 @@ function CartScreen() {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
     enqueueSnackbar(`${item.name} Removed from Cart`, { variant: 'warning' });
   };
-
+  const checkOutHandler = () => {
+    router.push('/shipping');
+  };
   return (
     <Layout title="Shopping Cart">
       <Box
@@ -180,7 +184,12 @@ function CartScreen() {
                   </Typography>
                 </ListItem>
                 <ListItem>
-                  <Button variant="contained" color="primary" fullWidth>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => checkOutHandler()}
+                  >
                     Check Out
                   </Button>
                 </ListItem>

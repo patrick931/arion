@@ -6,6 +6,7 @@ export default function ResetPassword() {
   return (
     <Layout title="Reset Password">
       <Box
+        textAlign="center"
         sx={{
           p: 1,
           mt: 9,

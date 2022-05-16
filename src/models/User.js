@@ -5,16 +5,20 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
+      uppercase: true,
       required: [true, 'Please enter first name'],
+      minlength: [2, 'Minimum length must be 2 characters'],
     },
     lastName: {
       type: String,
+      uppercase: true,
       required: [true, 'Please enter last name'],
+      minlength: [2, 'Minimum length must be 2 characters'],
     },
     mobile: {
       type: String,
-      unique: [true, 'Use a different number, this one is in use'],
       required: true,
+      unique: [true, 'Use a different number, this one is in use'],
       minlength: [10, 'Minimum length must be 10 characters'],
     },
     email: {

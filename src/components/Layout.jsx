@@ -1,10 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import Footer from './Footer';
-import { Container, Grid, Link, Badge, Switch, Box } from '@mui/material';
+import {
+  Container,
+  Grid,
+  Link,
+  Badge,
+  Switch,
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import { Store } from '../../utils/Store';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,14 +22,16 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
 import classes from '../../utils/classes';
+import { AccountCircle } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 // eslint-disable-next-line react/prop-types
 export default function Layout({ title, description, children }) {
+  const router = useRouter();
   const { state, dispatch } = useContext(Store);
-  const { darkMode, cart } = state;
+  const { darkMode, cart, userInfo } = state;
 
   const theme = createTheme({
     components: {
@@ -60,6 +72,20 @@ export default function Layout({ title, description, children }) {
   //   Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
   //   // Cookies.set('darkMode', JSON.stringify(newDarkMode ? 'ON' : 'OFF'));
   // };
+  const [anchorEl, setAnchorEl] = useState(null);
+  const loginClickHandler = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const loginMenuCloseHandler = () => {
+    setAnchorEl(null);
+  };
+  const logoutClickHandler = () => {
+    setAnchorEl(null);
+    dispatch({ type: 'USER_LOGOUT' });
+    Cookies.remove('userInfo');
+    Cookies.remove('cartItems');
+    router.push('/');
+  };
 
   return (
     <>
@@ -97,19 +123,6 @@ export default function Layout({ title, description, children }) {
                 <Typography sx={classes.brand}>Arion</Typography>
               </Link>
             </NextLink>
-            {/* <Box display="flex" alignItems="center">
-              <NextLink href="/" passHref>
-                <Link>
-                  <Typography sx={classes.brand}>Arion</Typography>
-                </Link>
-              </NextLink>
-            </Box> */}
-            {/* <Box>
-              <Switch
-                checked={darkMode}
-                onChange={darkModeChangeHandler}
-              ></Switch>
-            </Box> */}
             <NextLink href="/cart" passHref>
               <Link>
                 {cart.cartItems.length > 0 ? (
@@ -124,7 +137,7 @@ export default function Layout({ title, description, children }) {
                         justifyContent: 'center',
                         color: 'white',
                         '&:hover': {
-                          color: 'red',
+                          color: '#90f542',
                         },
                       }}
                     />
@@ -136,18 +149,75 @@ export default function Layout({ title, description, children }) {
                       justifyContent: 'center',
                       color: 'white',
                       '&:hover': {
-                        color: 'red',
+                        color: '#90f542',
                       },
                     }}
                   />
                 )}
               </Link>
             </NextLink>
-            <NextLink href="/signin" passHref>
-              <Link>
-                <Button color="inherit">Sign in</Button>
-              </Link>
-            </NextLink>
+            {userInfo ? (
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={loginClickHandler}
+                  color="inherit"
+                >
+                  <AccountCircle
+                    sx={{
+                      ml: 2,
+                      cursor: 'pointer',
+                      color: 'white',
+                      '&:hover': {
+                        color: '#90f542',
+                      },
+                    }}
+                  />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={loginMenuCloseHandler}
+                >
+                  <MenuItem
+                    onClick={loginMenuCloseHandler}
+                    sx={{
+                      backgroundColor: '#90f542',
+                      justifyContent: 'center',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {userInfo.firstName}
+                  </MenuItem>
+                  <MenuItem onClick={loginMenuCloseHandler}>Profile</MenuItem>
+                  <MenuItem onClick={loginMenuCloseHandler}>
+                    My Account
+                  </MenuItem>
+                  <MenuItem onClick={logoutClickHandler}>Log Out</MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <NextLink href="/signin" passHref>
+                <Link>
+                  <Button component="div" color="inherit">
+                    Sign in
+                  </Button>
+                </Link>
+              </NextLink>
+            )}
           </Toolbar>
         </AppBar>
         <Container component="main" sx={classes.main}>

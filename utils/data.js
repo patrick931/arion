@@ -1,4 +1,40 @@
+import bcrypt from 'bcryptjs';
 const data = {
+  users: [
+    {
+      firstName: 'Sam',
+      lastName: 'Doe',
+      mobile: '+254700000000',
+      email: 'sam@example.com',
+      password: bcrypt.hashSync('password.123'),
+      avatar: 'images/users/sam.png',
+      isAdmin: false,
+      isActive: true,
+      email_confirmed: true,
+    },
+    {
+      firstName: 'Admin',
+      lastName: 'System',
+      mobile: '+254700000001',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('password.123'),
+      avatar: 'images/users/admin.png',
+      isAdmin: true,
+      isActive: true,
+      email_confirmed: true,
+    },
+    {
+      firstName: 'Jane',
+      lastName: 'Doe',
+      mobile: '+254700000002',
+      email: 'janedoe@example.com',
+      password: bcrypt.hashSync('password.123'),
+      avatar: 'images/users/jane.png',
+      isAdmin: false,
+      isActive: false,
+      email_confirmed: false,
+    },
+  ],
   products: [
     {
       sku: 'XB7655',
