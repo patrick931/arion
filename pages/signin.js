@@ -161,7 +161,7 @@ export default function SignIn() {
               </Button>
               <Grid container sx={{ color: '#0362fc' }}>
                 <Grid item xs>
-                  <Link href="/resetPassword" variant="body2">
+                  <Link href="/reset-password" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
