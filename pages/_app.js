@@ -10,6 +10,7 @@ import createEmotionCache from '../utils/createEmotionCache';
 import { StoreProvider } from '../utils/Store';
 import Layout from '../src/components/Layout';
 import { SnackbarProvider } from 'notistack';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache({ key: 'css' });
@@ -46,7 +47,9 @@ export default function MyApp(props) {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           <StoreProvider>
-            <Component {...pageProps} />
+            <PayPalScriptProvider deferLoading={true}>
+              <Component {...pageProps} />
+            </PayPalScriptProvider>
           </StoreProvider>
         </SnackbarProvider>
       </CacheProvider>

@@ -15,13 +15,13 @@ async function connect() {
     }
     await mongoose.disconnect();
   }
-  const db = await mongoose.connect(process.env.MONGODB_URI, {
+  const dbConnect = await mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     // useUnifiedTopologgy: true,
     // useCreateIndex: true,
   });
   console.log('new connection');
-  connection.isConnected = db.connections[0].readyState;
+  connection.isConnected = dbConnect.connections[0].readyState;
 }
 
 async function disconnect() {
@@ -41,5 +41,5 @@ function convertDocToObj(doc) {
   doc.updatedAt = doc.updatedAt.toString();
   return doc;
 }
-const db = { connect, disconnect, convertDocToObj };
-export default db;
+const dbConnect = { connect, disconnect, convertDocToObj };
+export default dbConnect;

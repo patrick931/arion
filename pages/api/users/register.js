@@ -11,13 +11,10 @@ handler.post(async (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    email: req.body.email,
     mobile: req.body.mobile,
+    email: req.body.email,
     password: bcrypt.hashSync(req.body.password),
-    avatar: req.body.avatar,
     isAdmin: false,
-    isActive: false,
-    email_confirmed: false,
   });
   try {
     const user = await newUser.save();
@@ -25,11 +22,13 @@ handler.post(async (req, res) => {
 
     const token = signToken(user);
     res.status(201).json({
-      message: 'Successfully registed a user',
+      message: 'Successfully registed a new user',
       registeredUser: {
         token,
         _id: user._id,
         firstName: user.firstName,
+        lastName: user.lastName,
+        mobile: user.mobile,
         email: user.email,
         isAdmin: user.isAdmin,
       },
@@ -37,7 +36,7 @@ handler.post(async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Error Registering the User',
+      message: 'Error: Email or Mobile Already Taken.',
     });
   }
 });

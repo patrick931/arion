@@ -34,9 +34,11 @@ function CartScreen() {
     },
     dispatch,
   } = useContext(Store);
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
 
   const updateCartHandler = async (item, quantity) => {
+    closeSnackbar();
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
       enqueueSnackbar('Sorry, Product is Out of Stock', { variant: 'error' });
@@ -111,6 +113,8 @@ function CartScreen() {
                   <TableRow>
                     <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
+                    <TableCell align="right">Tax Rate</TableCell>
+                    <TableCell align="right">Discount Rate</TableCell>
                     <TableCell align="right">Quantity</TableCell>
                     <TableCell align="right">Unit Price</TableCell>
                     <TableCell align="right">Action</TableCell>
@@ -136,6 +140,22 @@ function CartScreen() {
                         <NextLink href={`/product/${item.slug}`} passHref>
                           <Link>
                             <Typography>{item.name}</Typography>
+                          </Link>
+                        </NextLink>
+                      </TableCell>
+
+                      <TableCell align="right">
+                        <NextLink href={`/product/${item.slug}`} passHref>
+                          <Link>
+                            <Typography>{item.taxRate}</Typography>
+                          </Link>
+                        </NextLink>
+                      </TableCell>
+
+                      <TableCell align="right">
+                        <NextLink href={`/product/${item.slug}`} passHref>
+                          <Link>
+                            <Typography>{item.productDiscountRate}</Typography>
                           </Link>
                         </NextLink>
                       </TableCell>
@@ -170,18 +190,31 @@ function CartScreen() {
               </Table>
             </TableContainer>
           </Grid>
+
           <Grid item md={3} xs={12}>
-            <Card>
+            <Card sx={{ mt: 1 }}>
               <List>
                 <ListItem>
-                  <Typography variant="h2">
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
-                    items) : ${' '}
-                    {cartItems.reduce(
-                      (a, c) => a + c.quantity * c.sellingPrice,
-                      0
-                    )}
-                  </Typography>
+                  <Typography variant="h2">Cart Summary</Typography>
+                </ListItem>
+                <ListItem>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <Typography>Sub Total:</Typography>(
+                      {cartItems.reduce((a, c) => a + c.quantity, 0)} items) :{' '}
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography align="right">
+                        ${' '}
+                        {round2(
+                          cartItems.reduce(
+                            (a, c) => a + c.quantity * c.sellingPrice,
+                            0
+                          )
+                        )}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </ListItem>
                 <ListItem>
                   <Button

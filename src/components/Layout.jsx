@@ -66,12 +66,12 @@ export default function Layout({ title, description, children }) {
       },
     },
   });
-  // const darkModeChangeHandler = () => {
-  //   dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
-  //   const newDarkMode = !darkMode;
-  //   Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
-  //   // Cookies.set('darkMode', JSON.stringify(newDarkMode ? 'ON' : 'OFF'));
-  // };
+  const darkModeChangeHandler = () => {
+    dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
+    const newDarkMode = !darkMode;
+    Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
+    // Cookies.set('darkMode', JSON.stringify(newDarkMode ? 'ON' : 'OFF'));
+  };
   const [anchorEl, setAnchorEl] = useState(null);
   const loginClickHandler = (e) => {
     setAnchorEl(e.currentTarget);
@@ -84,6 +84,8 @@ export default function Layout({ title, description, children }) {
     dispatch({ type: 'USER_LOGOUT' });
     Cookies.remove('userInfo');
     Cookies.remove('cartItems');
+    Cookies.remove('shippingAddress');
+    Cookies.remove('paymentMethod');
     router.push('/');
   };
 
@@ -123,6 +125,14 @@ export default function Layout({ title, description, children }) {
                 <Typography sx={classes.brand}>Arion</Typography>
               </Link>
             </NextLink>
+
+            <Box>
+              <Switch
+                checked={darkMode}
+                onChange={darkModeChangeHandler}
+              ></Switch>
+            </Box>
+
             <NextLink href="/cart" passHref>
               <Link>
                 {cart.cartItems.length > 0 ? (
@@ -177,6 +187,7 @@ export default function Layout({ title, description, children }) {
                     }}
                   />
                 </IconButton>
+                {/* {userInfo.firstName} */}
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
@@ -223,7 +234,7 @@ export default function Layout({ title, description, children }) {
         <Container component="main" sx={classes.main}>
           {children}
         </Container>
-        <Footer />
+        <Footer sx={{ mt: 5 }} />
       </ThemeProvider>
     </>
   );

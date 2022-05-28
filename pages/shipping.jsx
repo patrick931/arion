@@ -388,6 +388,13 @@ export default function Shipping() {
               >
                 Continue
               </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => router.push('/cart')}
+              >
+                Back
+              </Button>
             </Grid>
           </Box>
         </Container>

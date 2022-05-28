@@ -1,8 +1,8 @@
 import * as React from 'react';
+import Cookies from 'js-cookie';
 import { useContext, useEffect } from 'react';
 import { Store } from '../utils/Store';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Head from 'next/head';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,7 +16,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useSnackbar } from 'notistack';
-import Cookies from 'js-cookie';
 import NextLink from 'next/link';
 import axios from 'axios';
 import Layout from '../src/components/Layout';
@@ -38,18 +37,22 @@ export default function SignIn() {
   const { userInfo } = state;
   useEffect(() => {
     if (userInfo) {
-      router.push('/');
+      router.push(redirect || '/');
     }
-  }, []);
+  }, [router, userInfo, redirect]);
+
   const submitHandler = async ({ email, password }) => {
     closeSnackbar();
+
     try {
       const { data } = await axios.post('/api/users/login', {
         email,
         password,
       });
+
       dispatch({ type: 'USER_LOGIN', payload: data });
-      Cookies.set('userInfo', data);
+      // Cookies.set('userInfo', data);
+      Cookies.set('userInfo', JSON.stringify(data));
       router.push(redirect || '/');
       enqueueSnackbar('Successful Login', { variant: 'success' });
       return;
@@ -58,12 +61,14 @@ export default function SignIn() {
         err.response.data ? err.response.data.message : err.message,
         { variant: 'error' }
       );
+
+      console.log(err);
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Layout title="Sign in">
+      <Layout title="Sign In">
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -116,6 +121,7 @@ export default function SignIn() {
                   />
                 )}
               ></Controller>
+
               <Controller
                 name="password"
                 control={control}
@@ -147,6 +153,7 @@ export default function SignIn() {
                   />
                 )}
               ></Controller>
+
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"

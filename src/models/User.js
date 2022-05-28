@@ -6,14 +6,14 @@ const userSchema = new mongoose.Schema(
     firstName: {
       type: String,
       trim: true,
-      uppercase: true,
+      // uppercase: true,
       required: [true, 'Please enter first name'],
       minlength: [2, 'Minimum length must be 2 characters'],
     },
     lastName: {
       type: String,
       trim: true,
-      uppercase: true,
+      // uppercase: true,
       required: [true, 'Please enter last name'],
       minlength: [2, 'Minimum length must be 2 characters'],
     },
@@ -37,29 +37,21 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: [6, 'Minimum password length must be 6 characters'],
     },
-    avatar: {
-      type: String,
-      required: false,
-    },
     isAdmin: {
       type: Boolean,
       required: true,
       default: false,
     },
-    isActive: {
-      type: Boolean,
-      required: true,
-      default: true,
-    },
-    email_confirmed: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    resetPasswordLink: {
-      data: String,
-      default: '',
-    },
+    // isActive: {
+    //   type: Boolean,
+    //   required: true,
+    //   default: true,
+    // },
+    // email_confirmed: {
+    //   type: Boolean,
+    //   required: true,
+    //   default: false,
+    // },
   },
   {
     timestamps: true,
