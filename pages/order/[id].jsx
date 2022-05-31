@@ -57,8 +57,8 @@ function reducer(state, action) {
 function Order({ params }) {
   const { id: orderId } = params;
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-  const router = useRouter();
   const { state } = useContext(Store);
+  const router = useRouter();
   const { userInfo } = state;
 
   const [{ loading, error, order, successPay }, dispatch] = useReducer(
