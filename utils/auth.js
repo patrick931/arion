@@ -27,7 +27,7 @@ const isAuth = (req, res, next) => {
       if (err) {
         res.status(401).send({ message: 'Invalid Token' });
         console.log(err);
-        // console.log(token);
+        console.log(token);
       } else {
         req.user = decode;
         console.log(req.user);
@@ -35,7 +35,8 @@ const isAuth = (req, res, next) => {
       }
     });
   } else {
-    res.status(401).send({ message: 'No Token' });
+    res.status(401).send({ message: 'No Token Supplied' });
+    // console.log(err);
   }
 };
 

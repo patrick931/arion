@@ -19,8 +19,8 @@ handler.put(async (req, res) => {
       (user.password = req.body.password
         ? bcrypt.hashSync(req.body.password)
         : user.password);
-    user.avatar = req.body.avatar;
-    user.save();
+    // user.avatar = req.body.avatar;
+    await user.save();
 
     await dbConnect.disconnect();
 

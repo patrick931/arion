@@ -21,6 +21,7 @@ import axios from 'axios';
 import Layout from '../src/components/Layout';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
+import { getError } from '../utils/errors';
 
 const theme = createTheme();
 
@@ -57,11 +58,7 @@ export default function SignIn() {
       enqueueSnackbar('Successful Login', { variant: 'success' });
       return;
     } catch (err) {
-      enqueueSnackbar(
-        err.response.data ? err.response.data.message : err.message,
-        { variant: 'error' }
-      );
-
+      enqueueSnackbar(getError(err), { variant: 'error' });
       console.log(err);
     }
   };
