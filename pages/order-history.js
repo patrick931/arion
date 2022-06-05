@@ -10,6 +10,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   Grid,
   LinearProgress,
   List,
@@ -100,7 +101,8 @@ function OrderHistory() {
             <List>
               <ListItem>
                 {loading ? (
-                  <LinearProgress />
+                  // <LinearProgress />
+                  <CircularProgress />
                 ) : error ? (
                   <Typography sx={{ color: 'red' }}>{error}</Typography>
                 ) : (
